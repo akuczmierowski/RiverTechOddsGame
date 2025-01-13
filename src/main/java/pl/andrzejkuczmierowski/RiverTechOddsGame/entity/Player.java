@@ -26,12 +26,12 @@ public class Player {
 
     @Column
     @Setter
-    private BigDecimal balance;
+    private Double balance;
 
     public Player() {
     }
 
-    public Player(Long id, String name, String surname, String username, BigDecimal balance) {
+    public Player(Long id, String name, String surname, String username, Double balance) {
         this.id = id;
         this.name = name;
         this.surname = surname;

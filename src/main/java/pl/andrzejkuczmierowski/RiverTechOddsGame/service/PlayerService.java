@@ -53,20 +53,20 @@ public class PlayerService {
         Transaction.TransactionType type = transaction.getType();
         switch (type) {
             case WIN -> {
-                BigDecimal balance = player.getBalance();
-                player.setBalance(balance.add(transaction.getAmount()));
+                Double balance = player.getBalance();
+                player.setBalance(balance+transaction.getAmount());
                 return player;
             }
             case LOSE -> {
-                BigDecimal balance = player.getBalance();
-                player.setBalance(balance.subtract(transaction.getAmount()));
+                Double balance = player.getBalance();
+                player.setBalance(balance-transaction.getAmount());
                 return player;
             }
         }
         return player;
     }
 
-    private boolean canMakeTransaction(Player player, BigDecimal amount) {
-        return player.getBalance().subtract(amount).compareTo(BigDecimal.ZERO) > 0;
+    private boolean canMakeTransaction(Player player, Double amount) {
+        return player.getBalance()-(amount) > 0;
     }
 }

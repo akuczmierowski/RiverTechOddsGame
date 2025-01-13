@@ -5,10 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerException;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerService;
 
 @RestController
+@RequestMapping("/player")
 public class PlayerController {
 
     private final PlayerService playerService;
@@ -17,11 +19,21 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-    @PostMapping(path = "player/add")
+    @PostMapping(path = "/add")
     public ResponseEntity<Player> registerPlayer(@RequestBody Player player) throws PlayerException {
-         playerService.addPlayer(player);
-        return new ResponseEntity<>(player,HttpStatus.OK);
+        playerService.addPlayer(player);
+        return new ResponseEntity<>(player, HttpStatus.OK);
     }
+    @PutMapping(path = "/transaction")
+    public ResponseEntity<Transaction>addTranaction(@RequestParam String username, @RequestBody Transaction transaction) throws PlayerException {
+        Transaction transaction1 = playerService.addPlayerTransaction(username,transaction);
+        return new ResponseEntity<>(transaction1,HttpStatus.OK);
+    }
+
+   /* @GetMapping()
+    public Player getPlayer(@RequestParam("username") String username){
+        return playerRepository.findByUsername(username).get();
+    }*/
 
     @ExceptionHandler(PlayerException.class)
     public ResponseEntity<String> handleDuplicateUsername(PlayerException e) {

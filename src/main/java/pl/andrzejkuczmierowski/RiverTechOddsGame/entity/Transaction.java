@@ -20,8 +20,8 @@ public class Transaction {
     @Column(nullable = false)
     private TransactionType type;
 
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal amount;
+    @Column(nullable = false)
+    private Double amount;
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
@@ -36,7 +36,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Long id, TransactionType type, BigDecimal amount, LocalDateTime timestamp) {
+    public Transaction(Long id, TransactionType type, Double amount, LocalDateTime timestamp) {
         this.id = id;
         this.type = type;
         this.amount = amount;
