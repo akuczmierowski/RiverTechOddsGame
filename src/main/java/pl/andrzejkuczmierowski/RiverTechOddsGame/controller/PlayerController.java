@@ -30,10 +30,6 @@ public class PlayerController {
         return new ResponseEntity<>(transaction1,HttpStatus.OK);
     }
 
-   /* @GetMapping()
-    public Player getPlayer(@RequestParam("username") String username){
-        return playerRepository.findByUsername(username).get();
-    }*/
 
     @ExceptionHandler(PlayerException.class)
     public ResponseEntity<String> handleDuplicateUsername(PlayerException e) {
