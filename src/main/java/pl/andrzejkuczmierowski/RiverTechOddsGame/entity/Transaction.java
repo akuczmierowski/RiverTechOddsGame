@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,6 +17,7 @@ public class Transaction {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
+    @Setter
     private TransactionType type;
 
     @Column(nullable = false)
@@ -27,7 +27,7 @@ public class Transaction {
     private LocalDateTime timestamp;
 
     //TODO check cascade type
-    @ManyToOne(cascade= {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "player_id", nullable = false)
     @JsonIgnore
     @Setter
@@ -36,11 +36,10 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Long id, TransactionType type, Double amount, LocalDateTime timestamp) {
-        this.id = id;
-        this.type = type;
+    public Transaction(Double amount) {
+        this.type = amount < 0 ? TransactionType.LOSE : TransactionType.WIN;
         this.amount = amount;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
     }
 
     public enum TransactionType {

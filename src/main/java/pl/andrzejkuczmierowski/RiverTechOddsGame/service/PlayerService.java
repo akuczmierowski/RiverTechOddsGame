@@ -8,7 +8,6 @@ import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.TransactionRepository;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -34,39 +33,30 @@ public class PlayerService {
         }
     }
 
-    public Transaction addPlayerTransaction(String username, Transaction transaction) throws PlayerException {
-        Optional<Player> playerOptional = playerRepository.findByUsername(username);
-        if (playerOptional.isPresent()) {
-            Player player = playerOptional.get();
-            if (canMakeTransaction(player, transaction.getAmount())) {
-                calculateBalance(player, transaction);
-                transaction.setPlayer(player);
-                return transactionRepository.save(transaction);
-            }
-            throw new PlayerException(String.format("Player: %s has not enough credits", username));
+    public Transaction addPlayerTransaction(Player player, Transaction transaction) {
+        if (canMakeTransaction(player, transaction.getAmount())) {
+            calculateBalance(player, transaction);
+            transaction.setPlayer(player);
+            return transactionRepository.save(transaction);
         }
-        String message = String.format("Player for username: %s does not exist in database!", username);
-        throw new PlayerException(message);
+        throw new PlayerException(String.format("Player %s has not enough credits ", player.getUsername()));
+    }
+
+    public Player findPlayer(String username) throws PlayerException {
+        return playerRepository.findByUsername(username)
+                .orElseThrow(() -> new PlayerException(String.format("Cannot find player: %s", username)));
     }
 
     private Player calculateBalance(Player player, Transaction transaction) {
         Transaction.TransactionType type = transaction.getType();
         switch (type) {
-            case WIN -> {
-                Double balance = player.getBalance();
-                player.setBalance(balance+transaction.getAmount());
-                return player;
-            }
-            case LOSE -> {
-                Double balance = player.getBalance();
-                player.setBalance(balance-transaction.getAmount());
-                return player;
-            }
+            case WIN -> player.setBalance(player.getBalance() + transaction.getAmount());
+            case LOSE -> player.setBalance(player.getBalance() - transaction.getAmount());
         }
         return player;
     }
 
-    private boolean canMakeTransaction(Player player, Double amount) {
-        return player.getBalance()-(amount) > 0;
+    public boolean canMakeTransaction(Player player, Double amount) {
+        return player.getBalance() - (amount) > 0;
     }
 }

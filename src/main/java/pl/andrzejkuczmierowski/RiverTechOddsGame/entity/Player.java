@@ -1,5 +1,6 @@
 package pl.andrzejkuczmierowski.RiverTechOddsGame.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,7 +32,7 @@ public class Player {
     public Player() {
     }
 
-    public Player(Long id, String name, String surname, String username, Double balance) {
+    public Player( String name, String surname, String username, Double balance) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -41,5 +42,6 @@ public class Player {
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @Setter
+    @JsonIgnore
     private List<Transaction> transactions;
 }

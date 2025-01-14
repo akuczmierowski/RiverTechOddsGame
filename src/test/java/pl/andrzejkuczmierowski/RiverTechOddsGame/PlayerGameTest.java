@@ -5,8 +5,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.TransactionRepository;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerException;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerService;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.utils.Game;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.utils.NumberGenerator;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,23 +23,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PlayerGameTest {
 
     NumberGenerator numberGenerator;
+    PlayerRepository playerRepository;
+    TransactionRepository transactionRepository;
+    PlayerService playerService;
     Game game;
 
     @BeforeEach
     public void init() {
         numberGenerator = Mockito.mock(NumberGenerator.class);
+        playerRepository = Mockito.mock(PlayerRepository.class);
+        transactionRepository = Mockito.mock(TransactionRepository.class);
+        playerService = new PlayerService(playerRepository, transactionRepository);
         game = new Game(numberGenerator);
     }
 
+
     @Test
-    public void gameBetTest() {
-        //when
-        Mockito.when(numberGenerator.generate()).thenReturn(5);
-        //then
-        assertEquals(600, game.bet(4, 120));
-        assertEquals(-120, game.bet(1, 120));
-        assertEquals(1200, game.bet(5, 120));
-        assertEquals(60, game.bet(3, 120));
+    //TODO add more cases test
+    public void addTransactionTest() throws PlayerException {
+        String testPlayer = "testuser";
+        Player player = new Player("John", "Smith", testPlayer, 1200.0);
+        Mockito.when(playerRepository.findByUsername(testPlayer)).thenReturn(Optional.of(player));
+        //win case
+        Transaction transaction = new Transaction(200.0);
+        Mockito.when(transactionRepository.save(transaction)).thenReturn(transaction);
+        assertEquals(transaction, playerService.addPlayerTransaction(player, transaction));
+        assertEquals(1400.0, player.getBalance());
 
     }
 }

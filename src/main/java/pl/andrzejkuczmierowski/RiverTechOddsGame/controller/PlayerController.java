@@ -24,12 +24,13 @@ public class PlayerController {
         playerService.addPlayer(player);
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
+
     @PutMapping(path = "/transaction")
     public ResponseEntity<Transaction>addTranaction(@RequestParam String username, @RequestBody Transaction transaction) throws PlayerException {
-        Transaction transaction1 = playerService.addPlayerTransaction(username,transaction);
+        Player player = playerService.findPlayer(username);
+        Transaction transaction1 = playerService.addPlayerTransaction(player,transaction);
         return new ResponseEntity<>(transaction1,HttpStatus.OK);
     }
-
 
     @ExceptionHandler(PlayerException.class)
     public ResponseEntity<String> handleDuplicateUsername(PlayerException e) {
