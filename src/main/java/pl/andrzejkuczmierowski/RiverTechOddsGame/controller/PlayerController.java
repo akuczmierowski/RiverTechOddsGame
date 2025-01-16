@@ -1,5 +1,7 @@
 package pl.andrzejkuczmierowski.RiverTechOddsGame.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +10,8 @@ import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerException;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/player")
@@ -25,8 +29,11 @@ public class PlayerController {
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
 
-    @ExceptionHandler(PlayerException.class)
-    public ResponseEntity<String> handleDuplicateUsername(PlayerException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    @GetMapping(path = "/all")
+    public ResponseEntity<Page<Player>> findAll(@RequestParam("pageNumber") int pageNumber) {
+        org.springframework.data.domain.Page<Player> players = playerService.findAll(PageRequest.of(pageNumber, 2));
+        return new ResponseEntity<>(players, HttpStatus.OK);
     }
+
+
 }

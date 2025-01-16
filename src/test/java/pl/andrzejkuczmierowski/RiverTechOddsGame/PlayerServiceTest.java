@@ -14,13 +14,12 @@ import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerService;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.utils.Game;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.utils.NumberGenerator;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-public class PlayerGameTest {
+public class PlayerServiceTest {
 
     NumberGenerator numberGenerator;
     PlayerRepository playerRepository;

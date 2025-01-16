@@ -1,5 +1,6 @@
 package pl.andrzejkuczmierowski.RiverTechOddsGame.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class GameController {
     }
 
     @PostMapping(path = "/play")
-    public ResponseEntity<GameResponse> play(@RequestBody GameRequest gameRequest) {
+    public ResponseEntity<GameResponse> play(@RequestBody @Valid GameRequest gameRequest) {
 
         GameResponse gameResponse = gameService.handleGame(gameRequest);
         return new ResponseEntity<>(gameResponse, HttpStatus.OK);

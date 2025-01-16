@@ -33,14 +33,13 @@ public class Player {
     }
 
     public Player( String name, String surname, String username, Double balance) {
-        this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.balance = balance;
     }
 
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Setter
     @JsonIgnore
     private List<Transaction> transactions;

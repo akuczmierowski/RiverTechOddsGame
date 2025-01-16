@@ -2,12 +2,16 @@ package pl.andrzejkuczmierowski.RiverTechOddsGame.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.TransactionRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,18 +37,21 @@ public class PlayerService {
         }
     }
 
+    @Transactional
     public Transaction addPlayerTransaction(Player player, Transaction transaction) {
-        if (canMakeTransaction(player, transaction.getAmount())) {
             calculateBalance(player, transaction);
             transaction.setPlayer(player);
             return transactionRepository.save(transaction);
-        }
-        throw new PlayerException(String.format("Player %s has not enough credits ", player.getUsername()));
+
     }
 
     public Player findPlayer(String username) throws PlayerException {
         return playerRepository.findByUsername(username)
                 .orElseThrow(() -> new PlayerException(String.format("Cannot find player: %s", username)));
+    }
+
+    public Page<Player> findAll(PageRequest pageRequest){
+        return playerRepository.findAll(pageRequest);
     }
 
     private Player calculateBalance(Player player, Transaction transaction) {
