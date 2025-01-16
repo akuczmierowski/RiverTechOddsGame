@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 
 import java.util.List;
@@ -18,10 +19,11 @@ public interface PlayerRepository extends JpaRepository<Player, Long>, PagingAnd
 
     Page<Player> findAll(Pageable pageable);
 
-    @Query("SELECT p, (p.balance - 1000) AS win " +
+
+    @Query("SELECT new pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO(p.username, (p.balance - 1000)) " +
             "FROM Player p " +
             "WHERE p.balance > 0 " +
             "AND p.balance != 1000 " +
             "ORDER BY p.balance DESC")
-    List<Player> topPlayers();
+    List<PlayerDTO> topPlayers();
 }

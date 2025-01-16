@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.TransactionRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -39,9 +40,14 @@ public class PlayerService {
 
     @Transactional
     public Transaction addPlayerTransaction(Player player, Transaction transaction) {
-            calculateBalance(player, transaction);
-            transaction.setPlayer(player);
-            return transactionRepository.save(transaction);
+        calculateBalance(player, transaction);
+        transaction.setPlayer(player);
+        return transactionRepository.save(transaction);
+
+    }
+
+    public List<PlayerDTO> findBestPlayers() {
+        return playerRepository.topPlayers();
 
     }
 
@@ -50,7 +56,7 @@ public class PlayerService {
                 .orElseThrow(() -> new PlayerException(String.format("Cannot find player: %s", username)));
     }
 
-    public Page<Player> findAll(PageRequest pageRequest){
+    public Page<Player> findAll(PageRequest pageRequest) {
         return playerRepository.findAll(pageRequest);
     }
 
