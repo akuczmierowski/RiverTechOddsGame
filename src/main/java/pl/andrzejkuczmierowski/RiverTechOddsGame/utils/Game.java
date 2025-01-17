@@ -24,8 +24,8 @@ public class Game {
         } else if (Math.abs(drawnNumber - chosenNumber) == 2) {
             return amount / 2;
         }
-        amount = amount * -1;
-        return amount;
+
+        return amount * -1;
     }
 
 
