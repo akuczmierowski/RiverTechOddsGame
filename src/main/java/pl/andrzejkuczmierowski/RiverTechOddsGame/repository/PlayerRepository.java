@@ -19,6 +19,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long>, PagingAnd
 
     Page<Player> findAll(Pageable pageable);
 
+    @Override
+    <S extends Player> S save(S entity);
 
     @Query("SELECT new pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO(p.username, (p.balance - 1000)) " +
             "FROM Player p " +

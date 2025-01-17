@@ -61,11 +61,7 @@ public class PlayerService {
     }
 
     private Player calculateBalance(Player player, Transaction transaction) {
-        Transaction.TransactionType type = transaction.getType();
-        switch (type) {
-            case WIN -> player.setBalance(player.getBalance() + transaction.getAmount());
-            case LOSE -> player.setBalance(player.getBalance() - transaction.getAmount());
-        }
+        player.setBalance(player.getBalance() + transaction.getAmount());
         return player;
     }
 

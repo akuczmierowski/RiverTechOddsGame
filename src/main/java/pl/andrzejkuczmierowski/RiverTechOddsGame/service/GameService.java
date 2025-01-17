@@ -20,7 +20,7 @@ public class GameService {
         this.playerService = playerService;
     }
 
-    //TODO transactional
+
     @Transactional(rollbackFor = PlayerException.class)
     public GameResponse handleGame(GameRequest gameRequest) throws PlayerException {
         Player player = playerService.findPlayer(gameRequest.getPlayerUsername());
