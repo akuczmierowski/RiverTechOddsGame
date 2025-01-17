@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
-import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.model.GameRequest;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.model.GameResponse;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
@@ -19,8 +18,6 @@ import pl.andrzejkuczmierowski.RiverTechOddsGame.utils.NumberGenerator;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(SpringExtension.class)
 public class GameServiceTest {
@@ -31,6 +28,8 @@ public class GameServiceTest {
     PlayerService playerService;
     Game game;
     GameService gameService;
+
+    GameResponse gameResponse;
 
     @BeforeEach
     public void init() {
@@ -50,8 +49,9 @@ public class GameServiceTest {
         Mockito.when(playerRepository.findByUsername(testPlayer)).thenReturn(Optional.of(player));
         //win case
         Mockito.when(numberGenerator.generate()).thenReturn(4);
-        GameResponse gameResponse = gameService.handleGame(gameRequest);
+        gameResponse = gameService.handleGame(gameRequest);
         assertEquals(900, gameResponse.getPlayer().getBalance());
+        //lose case
         gameRequest = new GameRequest(3, 300, testPlayer);
         gameResponse = gameService.handleGame(gameRequest);
         assertEquals(2400, gameResponse.getPlayer().getBalance());
