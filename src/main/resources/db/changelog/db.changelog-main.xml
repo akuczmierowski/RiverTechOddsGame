@@ -6,4 +6,5 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 <include file="db-init.sql" relativeToChangelogFile="true"/>
 <include file="changes/alter_tables_set_double.sql" relativeToChangelogFile="true"/>
+<include file="changes/create_table_bet.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

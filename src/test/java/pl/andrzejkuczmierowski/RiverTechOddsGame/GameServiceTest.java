@@ -8,6 +8,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.model.GameRequest;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.model.GameResponse;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.BetRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.PlayerRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.repository.TransactionRepository;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.service.GameService;
@@ -25,6 +26,7 @@ public class GameServiceTest {
     NumberGenerator numberGenerator;
     PlayerRepository playerRepository;
     TransactionRepository transactionRepository;
+    BetRepository betRepository;
     PlayerService playerService;
     Game game;
     GameService gameService;
@@ -36,9 +38,10 @@ public class GameServiceTest {
         numberGenerator = Mockito.mock(NumberGenerator.class);
         playerRepository = Mockito.mock(PlayerRepository.class);
         transactionRepository = Mockito.mock(TransactionRepository.class);
+        betRepository=Mockito.mock(BetRepository.class);
         playerService = new PlayerService(playerRepository, transactionRepository);
         game = new Game(numberGenerator);
-        gameService = new GameService(game, playerService);
+        gameService = new GameService(game, playerService, betRepository);
     }
 
     @Test

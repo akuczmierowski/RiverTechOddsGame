@@ -24,8 +24,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long>, PagingAnd
 
     @Query("SELECT new pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO(p.username, (p.balance - 1000)) " +
             "FROM Player p " +
-            "WHERE p.balance > 0 " +
-            "AND p.balance != 1000 " +
+            "WHERE p.balance > 1000 " +
             "ORDER BY p.balance DESC")
     List<PlayerDTO> topPlayers();
 }

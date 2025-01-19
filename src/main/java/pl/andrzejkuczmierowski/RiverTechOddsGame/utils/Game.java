@@ -11,12 +11,13 @@ public class Game {
 
     private final NumberGenerator numberGenerator;
 
+    private int drawnNumber;
     public Game(NumberGenerator numberGenerator) {
         this.numberGenerator = numberGenerator;
     }
 
     public double bet(int chosenNumber, double amount) {
-        int drawnNumber = numberGenerator.generate();
+        drawnNumber= numberGenerator.generate();
         if (drawnNumber == chosenNumber) {
             return amount * 10;
         } else if (Math.abs(drawnNumber - chosenNumber) == 1) {
