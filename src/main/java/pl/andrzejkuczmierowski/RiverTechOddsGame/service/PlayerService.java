@@ -49,7 +49,7 @@ public class PlayerService {
         return transactionRepository.save(transaction);
 
     }
-
+    //TODO should subtract 1000 credits as this is default amount?
     public List<PlayerDTO> findBestPlayers(int numberOfPlayers) {
         return playerRepository.topPlayers(numberOfPlayers)
                 .stream()

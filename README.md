@@ -1,9 +1,9 @@
 # RiverTechOddsGame 
-An interview project to simulate odds game it allows to create player with unique username and default balance of 1000 credits.
-
+An interview project to simulate odds game that allows to create player with unique username and default balance of 1000 credits 
+and make bets. 
 
 ## Installation
-clone repository:
+Clone repository:
 ```bash
 git clone https://github.com/akuczmierowski/RiverTechOddsGame.git
 git checkout main
@@ -31,4 +31,6 @@ Visit
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
-to open Swagger
+to open Swagger and browse all endpoints
+
+Server is set for listening on port 8080
