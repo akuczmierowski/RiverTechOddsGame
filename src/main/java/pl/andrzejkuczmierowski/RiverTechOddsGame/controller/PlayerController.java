@@ -16,11 +16,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/player")
 public class PlayerController {
-private final DTOMapper mapper;
     private final PlayerService playerService;
 
-    public PlayerController(DTOMapper mapper, PlayerService playerService) {
-        this.mapper = mapper;
+    public PlayerController(PlayerService playerService) {
         this.playerService = playerService;
     }
 
@@ -31,13 +29,14 @@ private final DTOMapper mapper;
     }
 
     @GetMapping(path = "/all")
-    public ResponseEntity<Page<PlayerDTO>> findAll(@RequestParam("pageNumber") int pageNumber, @RequestParam("playersPerPage")int playersPerPage) {
+    public ResponseEntity<Page<PlayerDTO>> findAll(@RequestParam("pageNumber") int pageNumber,
+                                                   @RequestParam("playersPerPage") int playersPerPage) {
         Page<PlayerDTO> players = playerService.findAll(PageRequest.of(pageNumber, playersPerPage));
         return new ResponseEntity<>(players, HttpStatus.OK);
     }
 
     @GetMapping("/best")
-    public List<PlayerDTO>best(@RequestParam("numberOfPlayers") int numberOfPlayers){
+    public List<PlayerDTO> best(@RequestParam("numberOfPlayers") int numberOfPlayers) {
         return playerService.findBestPlayers(numberOfPlayers);
     }
 
