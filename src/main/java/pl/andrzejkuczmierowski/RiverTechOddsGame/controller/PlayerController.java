@@ -5,7 +5,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.DTOMapper;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.service.PlayerException;
