@@ -9,6 +9,5 @@ import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 public interface DTOMapper {
     DTOMapper MAPPER = Mappers.getMapper(DTOMapper.class);
 
-    @Mapping(target = "winAmount", source = "balance")
     PlayerDTO playerToPlayerDTO(Player player);
 }
