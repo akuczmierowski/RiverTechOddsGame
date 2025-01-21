@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.DTOMapper;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Transaction;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.PlayerDTO;
@@ -22,9 +23,12 @@ public class PlayerService {
     private final PlayerRepository playerRepository;
     private final TransactionRepository transactionRepository;
 
-    public PlayerService(PlayerRepository playerRepository, TransactionRepository transactionRepository) {
+    private final DTOMapper dtoMapper;
+
+    public PlayerService(PlayerRepository playerRepository, TransactionRepository transactionRepository, DTOMapper dtoMapper) {
         this.playerRepository = playerRepository;
         this.transactionRepository = transactionRepository;
+        this.dtoMapper = dtoMapper;
     }
 
     public Player addPlayer(Player player) throws PlayerException {
@@ -46,8 +50,11 @@ public class PlayerService {
 
     }
 
-    public List<PlayerDTO> findBestPlayers() {
-        return playerRepository.topPlayers();
+    public List<PlayerDTO> findBestPlayers(int numberOfPlayers) {
+        return playerRepository.topPlayers(numberOfPlayers)
+                .stream()
+                .map(dtoMapper::playerToPlayerDTO)
+                .toList();
 
     }
 
@@ -56,8 +63,8 @@ public class PlayerService {
                 .orElseThrow(() -> new PlayerException(String.format("Cannot find player: %s", username)));
     }
 
-    public Page<Player> findAll(PageRequest pageRequest) {
-        return playerRepository.findAll(pageRequest);
+    public Page<PlayerDTO> findAll(PageRequest pageRequest) {
+        return playerRepository.findAll(pageRequest).map(p->dtoMapper.playerToPlayerDTO(p));
     }
 
     private Player calculateBalance(Player player, Transaction transaction) {

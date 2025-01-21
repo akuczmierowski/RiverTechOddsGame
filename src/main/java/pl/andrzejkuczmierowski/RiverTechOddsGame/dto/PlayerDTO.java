@@ -8,5 +8,5 @@ import lombok.Getter;
 @Getter
 public class PlayerDTO {
     private String username;
-    private double win;
+    private Double winAmount;
 }

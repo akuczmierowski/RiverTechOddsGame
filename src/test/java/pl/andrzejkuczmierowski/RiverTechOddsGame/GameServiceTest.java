@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import pl.andrzejkuczmierowski.RiverTechOddsGame.dto.DTOMapper;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.entity.Player;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.model.GameRequest;
 import pl.andrzejkuczmierowski.RiverTechOddsGame.model.GameResponse;
@@ -27,6 +28,7 @@ public class GameServiceTest {
     PlayerRepository playerRepository;
     TransactionRepository transactionRepository;
     BetRepository betRepository;
+    DTOMapper dtoMapper;
     PlayerService playerService;
     Game game;
     GameService gameService;
@@ -39,7 +41,8 @@ public class GameServiceTest {
         playerRepository = Mockito.mock(PlayerRepository.class);
         transactionRepository = Mockito.mock(TransactionRepository.class);
         betRepository=Mockito.mock(BetRepository.class);
-        playerService = new PlayerService(playerRepository, transactionRepository);
+        dtoMapper=Mockito.mock(DTOMapper.class);
+        playerService = new PlayerService(playerRepository, transactionRepository,dtoMapper);
         game = new Game(numberGenerator);
         gameService = new GameService(game, playerService, betRepository);
     }

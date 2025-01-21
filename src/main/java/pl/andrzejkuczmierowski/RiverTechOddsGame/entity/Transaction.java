@@ -27,7 +27,7 @@ public class Transaction {
     private LocalDateTime timestamp;
 
     //TODO check cascade type
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name = "player_id", nullable = false)
     @JsonIgnore
     @Setter
