@@ -11,8 +11,7 @@ git checkout main
 Install JDK 17 from: https://download.oracle.com/java/17/archive/jdk-17.0.12_windows-x64_bin.exe
 Install Docker from https://docs.docker.com/desktop/setup/install/windows-install/ and run it
 Open project in IntelliJ Idea
-Go to Terminal, make sure that you are in main directory RiverTechOddsGame or
-
+Go to Terminal, make sure that you are in main directory RiverTechOddsGame and run:
 ```
 docker-compose up 
 ```
@@ -22,7 +21,6 @@ Go to Maven tab in IntelliJ and run install command or in terminal:
 mvn spring-boot:run
 ```
 This will download all required dependencies and start the application
-
 
 ## Usage
 
